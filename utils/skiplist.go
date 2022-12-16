@@ -1,8 +1,10 @@
-/*This skiplist is a mutable kv table in memory. 
+/*
+This skiplist is a mutable kv table in memory.
 This table will be transformed to immutable table and then SStable.
 
 Use cases(APIs)
 node
+
 	init(key,value)
 	setvalue(value)
 	getvalue()
@@ -13,6 +15,7 @@ node
 encodevalue(voffset,vsize)
 decodevalue(value)
 skiplist
+
 	init
 
 	getvalue(key)
@@ -20,6 +23,7 @@ skiplist
 	setvalue(key,value)
 
 Define Class(data + action) and relationship
+
 	const(maxheight = 30)
 	class node{
 		koffset,
@@ -34,22 +38,23 @@ Define Class(data + action) and relationship
 		head,
 		height,
 	}
-
 */
 package util
 
 import (
 	"math"
+	"unsafe"
 	_ "unsafe"
 )
 
 const (
 	MAXHEIGHT      = 20
 	heightIncrease = math.MaxUint32 / 3
+	MAXNODE = unsafe.Sizeof(node{})
 )
 
 type node struct {
-	v uint64 //
+	v uint64,//
 	koffset uint32,
 	ksize uint32,
 	height uint32,
@@ -65,3 +70,27 @@ type skiplist struct {
 	ref uint32, //?
 }
 
+type valuenode struct {
+
+}
+// new node
+// node
+// 	setvalue(value)
+// 	getvalue()
+// 	getkey()
+// 	getnext(level) //atomic load
+// 	setnext(oldoffset, newoffset, level)//atomic cas
+
+func newskiplist (arenasize uint64) *skiplist {
+	arena := newArena(arenasize)
+	//get head
+	nodesize := MAXNODE
+	head  := newnode(arena, )
+
+
+
+}
+
+func newnode (a arena, k []byte, v []byte, height uint32) nodeoffset uint32 {
+	nodeoffset = a.allocate(MAXNODE);
+}
